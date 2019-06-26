@@ -63,9 +63,9 @@ def delete(sqlite_data, json_data):
 def change(sqlite_data, json_data):
     """ Изменяю строки в которых были изменения, изменению подвергаются name и email """
     changed_rows = get_list_changed_rows_in_json(sqlite_data, json_data)
-    #swap(changed_rows)   # Меняю местами email с active
-    ch_row = swap(changed_rows)
-    for items in ch_row:
+    swap(changed_rows)   # Меняю местами email с active
+
+    for items in changed_rows:
         sql = "UPDATE data_personnel SET name=?, active=? WHERE email=?"
         cursor.execute(sql, items)
 
@@ -157,14 +157,8 @@ def read_json(json_file):
 
 
 def swap(data):
-    result = []
-    for _, item1, item2 in data:
-        result.append((_, item2, item1, ))
-
-    return result
-
-    #for items in data:
-    #    items[1], items[2] = items[2], items[1]
+    for items in data:
+       items[1], items[2] = items[2], items[1]
 
 
 sync('hr_db.json', 'data_personnel')
